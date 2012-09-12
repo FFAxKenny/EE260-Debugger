@@ -1,0 +1,62 @@
+!SESSION 2012-09-10 13:03:59.953 -----------------------------------------------
+eclipse.buildId=I20120608-1400
+java.version=1.7.0_02
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=en_US
+Framework arguments:  -product org.eclipse.epp.package.jee.product
+Command-line arguments:  -data C:\Users\abunai59\Dropbox\EE\467\project1 -os win32 -ws win32 -arch x86_64 -product org.eclipse.epp.package.jee.product
+
+!ENTRY org.eclipse.equinox.p2.operations 4 0 2012-09-10 19:43:52.431
+!MESSAGE Operation details
+!SUBENTRY 1 org.eclipse.equinox.p2.director 4 1 2012-09-10 19:43:52.431
+!MESSAGE Cannot complete the install because one or more required items could not be found.
+!SUBENTRY 2 org.eclipse.equinox.p2.director 4 0 2012-09-10 19:43:52.431
+!MESSAGE Software being installed: Eclipse IAM Team Support 0.11.0.201001181900 (org.eclipse.iam.feature.teamsupport.feature.group 0.11.0.201001181900)
+!SUBENTRY 2 org.eclipse.equinox.p2.director 4 0 2012-09-10 19:43:52.431
+!MESSAGE Missing requirement: Eclipse IAM Team Support 0.11.0.201001181900 (org.eclipse.iam.feature.teamsupport.feature.group 0.11.0.201001181900) requires 'org.eclipse.team.svn.ui [0.7.7,0.8.0)' but it could not be found
+
+!ENTRY org.eclipse.equinox.p2.operations 4 0 2012-09-10 19:43:52.439
+!MESSAGE Operation details
+!SUBENTRY 1 org.eclipse.equinox.p2.director 4 1 2012-09-10 19:43:52.439
+!MESSAGE Cannot complete the install because one or more required items could not be found.
+!SUBENTRY 2 org.eclipse.equinox.p2.director 4 0 2012-09-10 19:43:52.439
+!MESSAGE Software being installed: Eclipse IAM Team Support 0.11.0.201001181900 (org.eclipse.iam.feature.teamsupport.feature.group 0.11.0.201001181900)
+!SUBENTRY 2 org.eclipse.equinox.p2.director 4 0 2012-09-10 19:43:52.439
+!MESSAGE Missing requirement: Eclipse IAM Team Support 0.11.0.201001181900 (org.eclipse.iam.feature.teamsupport.feature.group 0.11.0.201001181900) requires 'org.eclipse.team.svn.ui [0.7.7,0.8.0)' but it could not be found
+
+!ENTRY org.eclipse.equinox.p2.operations 4 0 2012-09-10 19:46:08.195
+!MESSAGE Operation details
+!SUBENTRY 1 org.eclipse.equinox.p2.director 4 1 2012-09-10 19:46:08.195
+!MESSAGE Cannot complete the install because one or more required items could not be found.
+!SUBENTRY 2 org.eclipse.equinox.p2.director 4 0 2012-09-10 19:46:08.195
+!MESSAGE Software being installed: Eclipse IAM Team Support 0.11.0.201001181900 (org.eclipse.iam.feature.teamsupport.feature.group 0.11.0.201001181900)
+!SUBENTRY 2 org.eclipse.equinox.p2.director 4 0 2012-09-10 19:46:08.195
+!MESSAGE Missing requirement: Eclipse IAM Team Support 0.11.0.201001181900 (org.eclipse.iam.feature.teamsupport.feature.group 0.11.0.201001181900) requires 'org.eclipse.team.svn.ui [0.7.7,0.8.0)' but it could not be found
+
+!ENTRY org.eclipse.equinox.p2.operations 4 0 2012-09-10 19:46:08.197
+!MESSAGE Operation details
+!SUBENTRY 1 org.eclipse.equinox.p2.director 4 1 2012-09-10 19:46:08.197
+!MESSAGE Cannot complete the install because one or more required items could not be found.
+!SUBENTRY 2 org.eclipse.equinox.p2.director 4 0 2012-09-10 19:46:08.197
+!MESSAGE Software being installed: Eclipse IAM Team Support 0.11.0.201001181900 (org.eclipse.iam.feature.teamsupport.feature.group 0.11.0.201001181900)
+!SUBENTRY 2 org.eclipse.equinox.p2.director 4 0 2012-09-10 19:46:08.197
+!MESSAGE Missing requirement: Eclipse IAM Team Support 0.11.0.201001181900 (org.eclipse.iam.feature.teamsupport.feature.group 0.11.0.201001181900) requires 'org.eclipse.team.svn.ui [0.7.7,0.8.0)' but it could not be found
+!SESSION 2012-09-11 21:09:22.279 -----------------------------------------------
+eclipse.buildId=I20120608-1400
+java.version=1.7.0_02
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=en_US
+Framework arguments:  -product org.eclipse.epp.package.jee.product
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 -product org.eclipse.epp.package.jee.product
+
+!ENTRY org.eclipse.osgi 2 1 2012-09-11 21:10:12.240
+!MESSAGE NLS unused message: LifecycleMappingPropertyPage_this_message in: org.eclipse.m2e.core.ui.internal.messages
+
+!ENTRY org.eclipse.m2e.logback.appender 2 0 2012-09-11 21:10:57.990
+!MESSAGE CatalogItem org.eclipse.m2e.discovery.lifecyclemapping.m2e-egit does not contain lifecycle mapping metadata
+
+!ENTRY org.eclipse.core.jobs 2 2 2012-09-11 21:11:16.198
+!MESSAGE Job found still running after platform shutdown.  Jobs should be canceled by the plugin that scheduled them during shutdown: org.eclipse.m2e.core.internal.index.nexus.IndexUpdaterJob
+
+!ENTRY org.eclipse.m2e.logback.appender 4 0 2012-09-11 21:11:16.254
+!MESSAGE Unable to update index for central|http://repo.maven.apache.org/maven2
