@@ -11,7 +11,6 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
 /**
  * Responsible for reading in files and then converting the lines of assembly
  * code to usable data for the system. The processor will then make sense of
@@ -25,8 +24,8 @@ public class ASMReader {
     private File inputFile;
     private final static Logger log = LoggerFactory.getLogger(ASMReader.class);
 
-    public ASMReader(String filename) {
-	inputFile = new File(filename);
+    public ASMReader(File file) {
+	inputFile = file;
     }
 
     /**
@@ -53,6 +52,7 @@ public class ASMReader {
 	String add;
 	List<RowData> listOfRawData = new LinkedList<RowData>();
 	RowData rowData;
+	int i = 0;
 	while ((line = reader.readLine()) != null) {
 	    log.info("Line: " + line);
 	    line = line.trim();
