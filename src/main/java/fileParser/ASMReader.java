@@ -52,28 +52,33 @@ public class ASMReader {
 	String add;
 	List<RowData> listOfRawData = new LinkedList<RowData>();
 	RowData rowData;
-	int i = 0;
-	while ((line = reader.readLine()) != null) {
-	    log.info("Line: " + line);
-	    line = line.trim();
-	    String[] elements = line.split("\\s+", 3);
-	    log.info(elements[0]);
-	    if (elements[0].contains(":")) {
-		lbl = elements[0];
-		nmnc = elements[1];
-		add = elements[2];
-		log.info("Label: " + lbl + "Mneumonic: " + nmnc + "Addr: "
-			+ add);
-		rowData = new RowData(lbl, nmnc, add);
-	    } else {
-		nmnc = elements[0];
-		add = elements[1];
-		log.info("Mneumonic: " + nmnc + "Addr: " + add);
-		rowData = new RowData(nmnc, add);
+	try {
+	    while ((line = reader.readLine()) != null) {
+		log.info("Line: " + line);
+		line = line.trim();
+		String[] elements = line.split("\\s+", 3);
+		log.info(elements[0]);
+		if (elements[0].contains(":")) {
+		    lbl = elements[0];
+		    nmnc = elements[1];
+		    add = elements[2];
+		    log.info("Label: " + lbl + "Mneumonic: " + nmnc + "Addr: "
+			    + add);
+		    rowData = new RowData(lbl, nmnc, add);
+		} else {
+		    nmnc = elements[0];
+		    add = elements[1];
+		    log.info("Mneumonic: " + nmnc + "Addr: " + add);
+		    rowData = new RowData(nmnc, add);
+		}
+		listOfRawData.add(rowData);
 	    }
-	    listOfRawData.add(rowData);
+	    if (listOfRawData.size() > 63) {
+		throw new ArrayIndexOutOfBoundsException("Exceeded Code Space");
+	    }
+	    return listOfRawData;
+	} finally {
+	    reader.close();
 	}
-	reader.close();
-	return listOfRawData;
     }
 }

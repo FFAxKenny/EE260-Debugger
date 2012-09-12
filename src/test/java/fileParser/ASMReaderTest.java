@@ -22,4 +22,11 @@ public class ASMReaderTest {
 	Assert.assertEquals("ADDIA", convertedRow1.getMneumonic());
 	Assert.assertEquals("10", convertedRow1.getAddress());
     }
+
+    @Test(expected = ArrayIndexOutOfBoundsException.class)
+    public void codeSpaceTest() throws IOException {
+	ASMReader reader = new ASMReader(new File("SampleData/AsmSize.s"));
+	List<RowData> tooBig = reader.read();
+	Assert.fail();
+    }
 }
