@@ -1,0 +1,20 @@
+EE260 Debugger
+Best viewed in a x by y sized window
+
+To run:
+dbugr file.s
+
+To display this help file:
+dbugr -h
+
+In-Program controls:
+
+Command		|	Usage
+s			|	step the program once
+s,x			|	step the program "x" times
+i,x,y		|	*change I/O space, register "x" to value "y"
+			|
+			|
+			|
+			|
+			|
