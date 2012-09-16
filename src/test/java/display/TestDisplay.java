@@ -13,7 +13,6 @@ public class TestDisplay {
 
 	@Test
 	public void testClear() {
-		mDisplay.clear();
 	}
 
 }
