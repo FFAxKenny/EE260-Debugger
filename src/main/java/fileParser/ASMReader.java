@@ -53,6 +53,7 @@ public class ASMReader {
 	List<RowData> listOfRawData = new LinkedList<RowData>();
 	RowData rowData;
 	try {
+	    int i = 0;
 	    while ((line = reader.readLine()) != null) {
 		log.info("Line: " + line);
 		line = line.trim();
@@ -64,14 +65,16 @@ public class ASMReader {
 		    add = elements[2];
 		    log.info("Label: " + lbl + "Mneumonic: " + nmnc + "Addr: "
 			    + add);
-		    rowData = new RowData(lbl, nmnc, add);
+		    rowData = new RowData(lbl, nmnc, add,
+			    Integer.toHexString(i));
 		} else {
 		    nmnc = elements[0];
 		    add = elements[1];
 		    log.info("Mneumonic: " + nmnc + "Addr: " + add);
-		    rowData = new RowData(nmnc, add);
+		    rowData = new RowData(nmnc, add, Integer.toHexString(i));
 		}
 		listOfRawData.add(rowData);
+		i += 2;
 	    }
 	    if (listOfRawData.size() > 63) {
 		throw new ArrayIndexOutOfBoundsException("Exceeded Code Space");

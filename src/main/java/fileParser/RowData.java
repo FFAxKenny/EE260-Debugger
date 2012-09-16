@@ -4,10 +4,10 @@ import javax.management.openmbean.InvalidKeyException;
 
 public class RowData {
 
+    private String rowAddress;
     private String label;
     private String mneumonic;
-    private String address;
-    private String description;
+    private String operand;
 
     private final static String[] mneumonicsList = { "LDA", "LDIA", "LDB",
 	    "LDIB", "STA", "STB", "TAB", "TBA", "ADDA", "ADDIA", "ADDB",
@@ -18,16 +18,19 @@ public class RowData {
 
     private final int max = Integer.parseInt("0xFF");
 
-    public RowData(String lbl, String nmnc, String add) {
+    public RowData(String lbl, String nmnc, String oper, String rowAdd) {
 	label = checkLabel(lbl);
 	mneumonic = checkMneumonic(nmnc);
-	address = checkAddress(add);
+	operand = checkOperand(oper);
+	rowAddress = rowAdd;
+
     }
 
-    public RowData(String nmnc, String add) {
+    public RowData(String nmnc, String oper, String rowAdd) {
 	label = null;
 	mneumonic = checkMneumonic(nmnc);
-	address = checkAddress(add);
+	operand = checkOperand(oper);
+	rowAddress = rowAdd;
     }
 
     public String getLabel() {
@@ -38,12 +41,12 @@ public class RowData {
 	return mneumonic;
     }
 
-    public String getAddress() {
-	return address;
+    public String getOperand() {
+	return operand;
     }
 
-    public String getDescription() {
-	return description;
+    public String getRowAddress() {
+	return rowAddress;
     }
 
     public String checkLabel(String label) {
@@ -68,7 +71,7 @@ public class RowData {
 	return nmnc;
     }
 
-    public String checkAddress(String add) {
+    public String checkOperand(String add) {
 	int address = Integer.parseInt(add);
 	if (address <= min && address >= max) {
 	    throw new InvalidKeyException(
@@ -77,7 +80,4 @@ public class RowData {
 	return add;
     }
 
-    public void setDescription(String description) {
-	this.description = description;
-    }
 }
