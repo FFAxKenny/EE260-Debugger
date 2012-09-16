@@ -32,6 +32,11 @@
       <artifactId>slf4j-simple</artifactId>
       <version>1.6.6</version>
     </dependency>
+    <dependency>
+    	<groupId>com.baulsupp.kolja</groupId>
+    	<artifactId>jcurses</artifactId>
+    	<version>0.9.5.3</version>
+    </dependency>
   </dependencies>
 
 </project>
