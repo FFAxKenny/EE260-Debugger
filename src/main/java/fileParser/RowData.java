@@ -2,6 +2,8 @@ package fileParser;
 
 import javax.management.openmbean.InvalidKeyException;
 
+import Reference.Reference;
+
 public class RowData {
 
     private String rowAddress;
@@ -9,16 +11,13 @@ public class RowData {
     private String mneumonic;
     private String operand;
 
-    private final static String[] mneumonicsList = { "LDA", "LDIA", "LDB",
-	    "LDIB", "STA", "STB", "TAB", "TBA", "ADDA", "ADDIA", "ADDB",
-	    "ADDIB", "ADDB", "ADDIB", "SUBA", "SUBB", "SUBIB", "ANDA", "ANDIA",
-	    "ANDB", "ANDIB", "ORA", "ORIA", "ORB", "ORIB", "JMP", "JBZ", "JBNZ" };
-
     private final int min = Integer.parseInt("00");
 
     private final int max = Integer.parseInt("FF");
 
     public RowData(String lbl, String nmnc, String oper, String rowAdd) {
+	// TODO: if there is a label we need to create a hashmap to key the
+	// label, and value the rowAddress
 	label = checkLabel(lbl);
 	mneumonic = checkMneumonic(nmnc);
 	operand = checkOperand(oper);
@@ -58,15 +57,11 @@ public class RowData {
     }
 
     public String checkMneumonic(String nmnc) throws InvalidKeyException {
-	boolean check = false;
-	for (int i = 0; i < mneumonicsList.length; i++) {
-	    if (nmnc == mneumonicsList[i]) {
-		check = true;
+	for (int i = 0; i < Reference.mneumonicMap.keySet().size(); i++) {
+	    if (!Reference.mneumonicMap.containsKey(nmnc)) {
+		throw new InvalidKeyException(
+			"Enter a valid mneumonic, refer to help");
 	    }
-	}
-	if (!check) {
-	    throw new InvalidKeyException(
-		    "Enter a valid mneumonic, refer to help");
 	}
 	return nmnc;
     }

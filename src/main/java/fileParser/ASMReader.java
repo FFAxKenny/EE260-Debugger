@@ -12,6 +12,8 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import Reference.Reference;
+
 /**
  * Responsible for reading in files and then converting the lines of assembly
  * code to usable data for the system. The processor will then make sense of
@@ -21,37 +23,6 @@ import org.slf4j.LoggerFactory;
  */
 
 public class ASMReader {
-
-    private static final HashMap<String, String> mneumonicMap = new HashMap<String, String>() {
-	{
-	    put("LDA", "3A");
-	    put("LDIA", "3E");
-	    put("LDB", "39");
-	    put("LDIB", "3D");
-	    put("STA", "1A");
-	    put("STB", "19");
-	    put("TAB", "21");
-	    put("TBA", "22");
-	    put("ADDA", "62");
-	    put("ADDIA", "66");
-	    put("ADDB", "61");
-	    put("ADDIB", "65");
-	    put("SUBA", "6A");
-	    put("SUBIA", "6E");
-	    put("SUBB", "69");
-	    put("SUBIB", "6D");
-	    put("ANDA", "72");
-	    put("ANDIA", "76");
-	    put("ANDB", "71");
-	    put("ANDIB", "75");
-	    put("ORA", "7A");
-	    put("ORIA", "7E");
-	    put("ORB", "79");
-	    put("ORIB", "7D");
-	    put("ORB", "79");
-	    put("ORIB", "7D");
-	}
-    };
 
     private File inputFile;
     private final static Logger log = LoggerFactory.getLogger(ASMReader.class);
@@ -73,7 +44,7 @@ public class ASMReader {
      *             if it fails to read the file initially or fails to read the
      *             line.
      */
-    public List<RowData> read() throws IOException {
+    public SourceData read() throws IOException {
 	// TODO: modify so that it also checks if the parameters coming from
 	// the row before it loads it into the rowData.
 	BufferedReader reader = new BufferedReader(new InputStreamReader(
@@ -81,8 +52,9 @@ public class ASMReader {
 	String line;
 	String lbl;
 	String nmnc;
-	String add;
-	List<RowData> listOfRawData = new LinkedList<RowData>();
+	String value;
+	List<RowData> listOfRowData = new LinkedList<RowData>();
+	HashMap<String, String> lblAddMap = new HashMap<String, String>();
 	RowData rowData;
 	try {
 	    int i = 0;
@@ -94,24 +66,30 @@ public class ASMReader {
 		if (elements[0].contains(":")) {
 		    lbl = elements[0];
 		    nmnc = elements[1];
-		    add = elements[2];
-		    log.info("Label: " + lbl + "Mneumonic: " + nmnc + "Addr: "
-			    + add);
-		    rowData = new RowData(lbl, nmnc, add,
+		    value = elements[2];
+		    lblAddMap.put(lbl, Integer.toHexString(i));
+		    log.info("Label: " + lbl + "Mneumonic: "
+			    + Reference.mneumonicMap.get(nmnc) + "Addr: "
+			    + value);
+		    rowData = new RowData(lbl,
+			    Reference.mneumonicMap.get(nmnc), value,
 			    Integer.toHexString(i));
 		} else {
 		    nmnc = elements[0];
-		    add = elements[1];
-		    log.info("Mneumonic: " + nmnc + "Addr: " + add);
-		    rowData = new RowData(nmnc, add, Integer.toHexString(i));
+		    value = elements[1];
+		    log.info("Mneumonic: " + Reference.mneumonicMap.get(nmnc)
+			    + "Addr: " + value);
+		    rowData = new RowData(Reference.mneumonicMap.get(nmnc),
+			    value, Integer.toHexString(i));
 		}
-		listOfRawData.add(rowData);
+		listOfRowData.add(rowData);
 		i += 2;
 	    }
-	    if (listOfRawData.size() > 64) {
+	    if (listOfRowData.size() > 64) {
 		throw new ArrayIndexOutOfBoundsException("Exceeded Code Space");
 	    }
-	    return listOfRawData;
+	    SourceData sourceData = new SourceData(listOfRowData, lblAddMap);
+	    return sourceData;
 	} finally {
 	    reader.close();
 	}
