@@ -27,5 +27,10 @@ public class MainProcessor {
 		else {
 			System.out.println("Use command -h for help.");
 		}
+		// Main loop
+		boolean done = false; // loop condition
+		while (!done) {
+			
+		}
 	}
 }
