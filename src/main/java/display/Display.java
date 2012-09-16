@@ -12,7 +12,7 @@ public class Display {
 	 */
 	public Display() {
 	}
-	
+
 	/**
 	 * Display a line of code 
 	 * @return 
