@@ -6,11 +6,13 @@ import java.util.List;
 
 import junit.framework.Assert;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class ASMReaderTest {
 
     @Test
+    @Ignore
     public void readTest() throws IOException {
 	ASMReader reader = new ASMReader(new File("SampleData/AsmTiny.s"));
 	List<RowData> convertedAsmCode = reader.read();
@@ -24,10 +26,18 @@ public class ASMReaderTest {
     }
 
     @Test(expected = ArrayIndexOutOfBoundsException.class)
+    @Ignore
     public void codeSpaceTest() throws IOException {
 	ASMReader reader = new ASMReader(new File("SampleData/AsmSize.s"));
 	@SuppressWarnings("unused")
 	List<RowData> tooBig = reader.read();
 	Assert.fail();
+    }
+
+    @Test
+    public void Test() {
+	String i = "0x55";
+	String[] i2 = i.split("x");
+	System.out.println(Integer.parseInt(i2[1], 16));
     }
 }

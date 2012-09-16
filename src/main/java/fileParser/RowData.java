@@ -14,9 +14,9 @@ public class RowData {
 	    "ADDIB", "ADDB", "ADDIB", "SUBA", "SUBB", "SUBIB", "ANDA", "ANDIA",
 	    "ANDB", "ANDIB", "ORA", "ORIA", "ORB", "ORIB", "JMP", "JBZ", "JBNZ" };
 
-    private final int min = Integer.parseInt("0x00");
+    private final int min = Integer.parseInt("00");
 
-    private final int max = Integer.parseInt("0xFF");
+    private final int max = Integer.parseInt("FF");
 
     public RowData(String lbl, String nmnc, String oper, String rowAdd) {
 	label = checkLabel(lbl);

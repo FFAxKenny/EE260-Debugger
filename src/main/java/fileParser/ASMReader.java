@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -20,6 +21,37 @@ import org.slf4j.LoggerFactory;
  */
 
 public class ASMReader {
+
+    private static final HashMap<String, String> mneumonicMap = new HashMap<String, String>() {
+	{
+	    put("LDA", "3A");
+	    put("LDIA", "3E");
+	    put("LDB", "39");
+	    put("LDIB", "3D");
+	    put("STA", "1A");
+	    put("STB", "19");
+	    put("TAB", "21");
+	    put("TBA", "22");
+	    put("ADDA", "62");
+	    put("ADDIA", "66");
+	    put("ADDB", "61");
+	    put("ADDIB", "65");
+	    put("SUBA", "6A");
+	    put("SUBIA", "6E");
+	    put("SUBB", "69");
+	    put("SUBIB", "6D");
+	    put("ANDA", "72");
+	    put("ANDIA", "76");
+	    put("ANDB", "71");
+	    put("ANDIB", "75");
+	    put("ORA", "7A");
+	    put("ORIA", "7E");
+	    put("ORB", "79");
+	    put("ORIB", "7D");
+	    put("ORB", "79");
+	    put("ORIB", "7D");
+	}
+    };
 
     private File inputFile;
     private final static Logger log = LoggerFactory.getLogger(ASMReader.class);
@@ -76,7 +108,7 @@ public class ASMReader {
 		listOfRawData.add(rowData);
 		i += 2;
 	    }
-	    if (listOfRawData.size() > 63) {
+	    if (listOfRawData.size() > 64) {
 		throw new ArrayIndexOutOfBoundsException("Exceeded Code Space");
 	    }
 	    return listOfRawData;
