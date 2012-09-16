@@ -1,5 +1,7 @@
 package fileParser;
 
+import javax.management.openmbean.InvalidKeyException;
+
 public class RowData {
 
     private String label;
@@ -7,16 +9,25 @@ public class RowData {
     private String address;
     private String description;
 
+    private final static String[] mneumonicsList = { "LDA", "LDIA", "LDB",
+	    "LDIB", "STA", "STB", "TAB", "TBA", "ADDA", "ADDIA", "ADDB",
+	    "ADDIB", "ADDB", "ADDIB", "SUBA", "SUBB", "SUBIB", "ANDA", "ANDIA",
+	    "ANDB", "ANDIB", "ORA", "ORIA", "ORB", "ORIB", "JMP", "JBZ", "JBNZ" };
+
+    private final int min = Integer.parseInt("0x00");
+
+    private final int max = Integer.parseInt("0xFF");
+
     public RowData(String lbl, String nmnc, String add) {
-	label = lbl;
-	mneumonic = nmnc;
-	address = add;
+	label = checkLabel(lbl);
+	mneumonic = checkMneumonic(nmnc);
+	address = checkAddress(add);
     }
 
     public RowData(String nmnc, String add) {
 	label = null;
-	mneumonic = nmnc;
-	address = add;
+	mneumonic = checkMneumonic(nmnc);
+	address = checkAddress(add);
     }
 
     public String getLabel() {
@@ -33,6 +44,37 @@ public class RowData {
 
     public String getDescription() {
 	return description;
+    }
+
+    public String checkLabel(String label) {
+	if (label.charAt(label.length() - 1) != ':') {
+	    throw new InvalidKeyException(
+		    "Invalid Label. Probably missing a ':' at the end of the label");
+	}
+	return label;
+    }
+
+    public String checkMneumonic(String nmnc) throws InvalidKeyException {
+	boolean check = false;
+	for (int i = 0; i < mneumonicsList.length; i++) {
+	    if (nmnc == mneumonicsList[i]) {
+		check = true;
+	    }
+	}
+	if (!check) {
+	    throw new InvalidKeyException(
+		    "Enter a valid mneumonic, refer to help");
+	}
+	return nmnc;
+    }
+
+    public String checkAddress(String add) {
+	int address = Integer.parseInt(add);
+	if (address <= min && address >= max) {
+	    throw new InvalidKeyException(
+		    "Enter a valid address in between 0x00 and 0xFF");
+	}
+	return add;
     }
 
     public void setDescription(String description) {
