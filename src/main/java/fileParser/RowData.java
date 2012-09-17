@@ -13,30 +13,12 @@ import Reference.Reference;
  */
 public class RowData {
 
-    private String label;
     private String mneumonic;
     private String operand;
 
     private final int min = Integer.parseInt("00", 16);
 
     private final int max = Integer.parseInt("FF", 16);
-
-    /**
-     * For a row with 3 arguments, always (Label Mneumonic Value).
-     * 
-     * @param lbl
-     * @param nmnc
-     * @param oper
-     */
-    public RowData(String lbl, String nmnc, String oper)
-	    throws InvalidKeyException {
-	// TODO: if there is a label we need to create a hashmap to key the
-	// label, and value the rowAddress
-	label = checkLabel(lbl);
-	mneumonic = checkMneumonic(nmnc);
-	operand = checkOperand(oper);
-
-    }
 
     /**
      * For a row with 2 arguments, it's either (Label Mneumonic) or (Mneumonic
@@ -46,14 +28,10 @@ public class RowData {
      * @param nmncOrValue
      * @param labelDefined
      */
-    public RowData(String nmncOrLabel, String nmncOrValue, boolean labelDefined)
+    public RowData(String nmnc, String oper)
 	    throws InvalidKeyException {
-	if (labelDefined) {
-	    label = nmncOrLabel;
-	    mneumonic = checkMneumonic(nmncOrValue);
-	} else {
-	    mneumonic = checkMneumonic(nmncOrLabel);
-	    operand = checkOperand(nmncOrValue);
+	    mneumonic = checkMneumonic(nmnc);
+	    operand = checkOperand(oper);
 	}
     }
 
@@ -63,7 +41,6 @@ public class RowData {
      * @param nmnc
      */
     public RowData(String nmnc) throws InvalidKeyException {
-	label = null;
 	operand = null;
 	mneumonic = checkMneumonic(nmnc);
     }
@@ -72,13 +49,8 @@ public class RowData {
      * Empty constructor
      */
     public RowData() {
-	label = null;
 	operand = null;
 	mneumonic = null;
-    }
-
-    public String getLabel() {
-	return label;
     }
 
     public String getMneumonic() {
@@ -96,7 +68,7 @@ public class RowData {
      *            the label that needs to be checked
      * @return the same label if it passes
      */
-    public String checkLabel(String label) throws InvalidKeyException {
+    public static String checkLabel(String label) throws InvalidKeyException {
 	if (label.charAt(label.length() - 1) != ':') {
 	    throw new InvalidKeyException(
 		    "Invalid Label. Probably missing a ':' at the end of the label");

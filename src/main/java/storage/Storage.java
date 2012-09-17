@@ -70,19 +70,25 @@ public class Storage {
 	}
     }
 
-    // Writes a byte of data to an address in memory
-    // Note: parameter address must be in hex form and have 0x in front of
-    // the address to be accessed. Can be upper or lowercase.
-    // Ex. 0x4f 0xA3
+    /**
+     * Writes a byte of data to an address in memory Note: parameter address
+     * must be in hex form and have 0x in front of the address to be accessed.
+     * Can be upper or lowercase. Ex. 0x4f 0xA3
+     * 
+     * @param address
+     * @param data
+     */
     public void writeMemory(String address, byte data) {
 	int decimalAddress = Integer.decode(address);
 	memory[decimalAddress] = (byte) data;
     }
 
-    // Returns a char value of what is in a specified memory cell
-    // Note: parameter address must be in hex form and have 0x in front of
-    // the address to be accessed. Can be upper or lowercase.
-    // Ex. 0x4f 0xA3
+    /**
+     * @return a char value of what is in a specified memory cell Note:
+     *         parameter address must be in hex form and have 0x in front of the
+     *         address to be accessed. Can be upper or lowercase. Ex. 0x4f 0xA3
+     * 
+     */
     public char readMemory(String address) {
 	int decimalAddress = Integer.decode(address);
 	byte mem = memory[decimalAddress];

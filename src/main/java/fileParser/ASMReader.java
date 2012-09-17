@@ -64,39 +64,43 @@ public class ASMReader {
 		String[] elements = line.split("\\s+", 3);
 		mLog.info(elements[0]);
 		if (elements.length == 3) {
-		    lbl = elements[0];
+		    lbl = RowData.checkLabel(elements[0]);
 		    nmnc = elements[1];
 		    value = elements[2];
 		    checkUsage(nmnc, value);
 		    lblAddMap.put(lbl, Integer.toHexString(i));
-		    mLog.info("Label: " + lbl + "Mneumonic: "
+		    mLog.info("Row Number: " + Integer.toHexString(i)
+			    + " Label: " + lbl + "Mneumonic: "
 			    + Reference.MNEUMONIC_MAP.get(nmnc) + "Addr: "
 			    + value);
-		    rowData = new RowData(lbl,
-			    Reference.MNEUMONIC_MAP.get(nmnc), value);
+		    rowData = new RowData(Reference.MNEUMONIC_MAP.get(nmnc),
+			    value);
 		} else if (elements.length == 2) {
 		    if (elements[0].contains(":")) {
 			// it's starts with a label
-			lbl = elements[0];
+			lbl = RowData.checkLabel(elements[0]);
 			nmnc = elements[1];
-			mLog.info("Label: " + lbl + " Mneumonic: "
+			mLog.info("Row Number: " + Integer.toHexString(i)
+				+ " Label: " + lbl + " Mneumonic: "
 				+ Reference.MNEUMONIC_MAP.get(nmnc));
-			rowData = new RowData(lbl,
-				Reference.MNEUMONIC_MAP.get(nmnc), true);
+			rowData = new RowData(Reference.MNEUMONIC_MAP.get(nmnc));
 
 		    } else {
 			nmnc = elements[0];
 			value = elements[1];
 			checkUsage(nmnc, value);
-			mLog.info("Mneumonic: "
+			mLog.info("Row Number: " + Integer.toHexString(i)
+				+ " Mneumonic: "
 				+ Reference.MNEUMONIC_MAP.get(nmnc) + " Addr: "
 				+ value);
 			rowData = new RowData(
-				Reference.MNEUMONIC_MAP.get(nmnc), value, false);
+				Reference.MNEUMONIC_MAP.get(nmnc), value);
 		    }
 		} else if (elements.length == 1) {
 		    nmnc = elements[0];
-		    mLog.info("Mneumonic: " + Reference.MNEUMONIC_MAP.get(nmnc));
+		    mLog.info("Row Number: " + Integer.toHexString(i)
+			    + " Mneumonic: "
+			    + Reference.MNEUMONIC_MAP.get(nmnc));
 		    rowData = new RowData(Reference.MNEUMONIC_MAP.get(nmnc));
 		}
 		rowMap.put(Integer.toHexString(i), rowData);
@@ -105,7 +109,7 @@ public class ASMReader {
 	    if (rowMap.size() > 64) {
 		throw new ArrayIndexOutOfBoundsException("Exceeded Code Space");
 	    }
-	    SourceData sourceData = new SourceData(rowMap, lblAddMap);
+	    SourceData sourceData = new SourceData(rowMap, lblAddMap, i);
 	    return sourceData;
 	} finally {
 	    reader.close();
