@@ -1,5 +1,6 @@
 package CodeProcessor;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -51,11 +52,57 @@ public class CodeProcessor {
     }
     
     /**
-     * @return registers in a & b GPRs[0] = a, GPRs[1] = b
+     * Runs a command and returns the String Array
+     * Commands are anything except stepping the program
+     * @param command
+     * @return string array of completed operation
      */
-    public char[] getGPRs() {
-	char[] GPRs = { mStorage.readRegister('a') , mStorage.readRegister('b') };
-	return GPRs;
+    public String[] runCommand(String[] command) {
+    	// TODO figure out what to do from the command
+    	//		Use UserInterface class' static variables
+    	//		To check for commands
+    	//		ex:  case UserInterface.
+    	
+    	// TODO call the correct method with interpreted parameters
+    	//		and return a string array of the completed command
+    	//		if command can't be completed, print an error
+    }
+    
+    /**
+     * Steps the program
+     * @param steps
+     * @return string array list of completed operations
+     */
+    public List<String[]> step(int steps) {
+    	List<String[]> operations = new ArrayList<String[]>();
+    	for (int i = 0 ; i < steps ; i++) {
+    		// TODO get code to run from program counter
+    		
+    		// TODO run code
+    		
+    		// TODO add operations to actions string list
+    		// String[] operation;
+    		// operation = { "update", "gpu", "a", "value" }
+    		// actions.add(String[]);
+    	}
+    }
+    
+    /**
+     * @param register
+     * @return List<String[]> of GPRA or GPRB
+     */
+    private String[] getGPR(char register) {
+    	String[] gpr = { "gpr", "a", mStorage.readRegister(register) };
+       	return gpr;
+    }
+
+    /**
+     * @param address
+     * @return List<String[]> of register value
+     */
+    private String[] getRegister(String address) {
+    	String[] gpr = { "register", "a", mStorage.readMemory(address) };
+       	return gpr;
     }
     
     /**
@@ -63,7 +110,7 @@ public class CodeProcessor {
      * @param hexAddress
      * @param hexValue
      */
-    public void writeToIOSpace(String hexAddress, String hexValue) {
+    private String[] writeToIOSpace(String hexAddress, String hexValue) {
 	// TODO: Tiffany - please implement this
     }
     
@@ -72,25 +119,14 @@ public class CodeProcessor {
      * @param hexAddress
      * @param hexValue
      */
-    public void writeToDataSpace(String hexAddress, String hexValue) {
+    private String[] writeToDataSpace(String hexAddress, String hexValue) {
 	// TODO: Tiffany - please implement this
-    }
-    
-    /**
-     * Will either expect 2 or 3 elements within the array.
-     * @return a String[] that desribes what is going on currently in the code.
-     * Note: it's assumed that the code has already been imported
-     */
-    public List<String[]> step() {
-	// TODO: Tiff - you need to implement this function by iterating through
-	// the code that's stored in the code space. Iterate using the PC. PC will
-	// also handle jumps to labels and such behavior.
     }
     
     // Executes the code according to the opCode parameter
     // If parameter data is an address then must be in hex format Eg. 0x4f 0xF3
     // If using TAB or TBA then parameterdata can be set to anything
-    public void instruction(String opCode, String data) {
+    private void instruction(String opCode, String data) {
 	// TODO: Tiff - you have to finish what Brandon was doing here. This is where
 	// we simulate the behavior of the code. The behaviors are accessed through
 	// the opcode since that is how it is stored in storage.
