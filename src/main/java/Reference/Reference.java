@@ -2,10 +2,18 @@ package Reference;
 
 import java.util.HashMap;
 
+/**
+ * A reference card that has data about the instruction set, and the EE260
+ * Computer.
+ * 
+ * @author ejay
+ * 
+ */
+
 public class Reference {
-    public static final HashMap<String, String> mneumonicMap = new HashMap<String, String>() {
+    public static final HashMap<String, String> MNEUMONIC_MAP = new HashMap<String, String>() {
 	/**
-	 * 
+	 * A HashMap that represents, opcode to mneumonic pairing.
 	 */
 	private static final long serialVersionUID = 1L;
 

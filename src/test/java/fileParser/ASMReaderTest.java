@@ -2,17 +2,17 @@ package fileParser;
 
 import java.io.File;
 import java.io.IOException;
+import java.security.InvalidKeyException;
 
 import junit.framework.Assert;
 
-import org.junit.Ignore;
 import org.junit.Test;
 
 public class ASMReaderTest {
 
     @Test
-    @Ignore
-    public void readTest() throws IOException {
+    public void readTest() throws IOException, InvalidKeyException,
+	    IllegalArgumentException {
 	ASMReader reader = new ASMReader(new File("SampleData/AsmTiny.s"));
 	SourceData convertedAsmCode = reader.read();
 	RowData convertedRow0 = convertedAsmCode.getSourceCode().get(0);
@@ -25,18 +25,12 @@ public class ASMReaderTest {
     }
 
     @Test(expected = ArrayIndexOutOfBoundsException.class)
-    @Ignore
-    public void codeSpaceTest() throws IOException {
+    public void codeSpaceTest() throws IOException, InvalidKeyException,
+	    IllegalArgumentException {
 	ASMReader reader = new ASMReader(new File("SampleData/AsmSize.s"));
 	@SuppressWarnings("unused")
 	SourceData tooBig = reader.read();
 	Assert.fail();
     }
 
-    @Test
-    public void Test() {
-	String i = "0x55";
-	String[] i2 = i.split("x");
-	System.out.println(Integer.parseInt(i2[1], 16));
-    }
 }
