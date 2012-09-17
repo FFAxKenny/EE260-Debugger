@@ -9,12 +9,13 @@ import java.util.Scanner;
  * @author boka
  */
 public class UserInterface {
-	private static final String QUIT = "quit";
-	private static final String HELP = "help";
-	private static final String STEP = "step";
-	private static final String ERROR = "error";
-	private static final String CHANGE_IO = "io";
-	private static final String GET = "get";
+	private static final String DEFAULT_STEP = "1";
+	public static final String QUIT = "quit";
+	public static final String HELP = "help";
+	public static final String STEP = "step";
+	public static final String ERROR = "error";
+	public static final String CHANGE_IO = "io";
+	public static final String GET = "get";
 
 	private Scanner mScanner;
 
@@ -48,7 +49,7 @@ public class UserInterface {
 		String[] command;
 
 		if (splitLine.length >= 1) {
-			switch (splitLine[0]) {
+			switch (splitLine[0].toLowerCase()) {
 				case "quit":
 					command = new String[] { QUIT };
 					break;
@@ -57,7 +58,7 @@ public class UserInterface {
 					break;
 				case "step":
 					if (splitLine.length == 1) {
-						command = new String[] { STEP };
+						command = new String[] { STEP, DEFAULT_STEP };
 					}
 					else {
 						command = new String[] { STEP, splitLine[1] };
