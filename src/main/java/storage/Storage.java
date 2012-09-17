@@ -72,14 +72,13 @@ public class Storage {
 
     /**
      * Writes a byte of data to an address in memory Note: parameter address
-     * must be in hex form and have 0x in front of the address to be accessed.
-     * Can be upper or lowercase. Ex. 0x4f 0xA3
+     * must be in hex form. "0F" "00" etc.
      * 
      * @param address
      * @param data
      */
     public void writeMemory(String address, byte data) {
-	int decimalAddress = Integer.decode(address);
+	int decimalAddress = Integer.parseInt(address, 16);
 	memory[decimalAddress] = (byte) data;
     }
 
@@ -90,7 +89,7 @@ public class Storage {
      * 
      */
     public char readMemory(String address) {
-	int decimalAddress = Integer.decode(address);
+	int decimalAddress = Integer.parseInt(address, 16);
 	byte mem = memory[decimalAddress];
 	char memry = (char) mem;
 	return memry;

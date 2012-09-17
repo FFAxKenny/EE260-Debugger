@@ -1,5 +1,9 @@
 package CodeProcessor;
 
+import java.util.HashMap;
+
+import fileParser.RowData;
+import fileParser.SourceData;
 import storage.Storage;
 
 /*
@@ -12,8 +16,30 @@ import storage.Storage;
 
 public class CodeProcessor {
 
-    
     private Storage mStorage;
+    
+    public CodeProcessor(SourceData source) {
+	this.importSourceToStorage(source);
+    }
+    
+    public void importSourceToStorage(SourceData source) {
+	HashMap<String, RowData> sourceData = source.getSourceCode();
+	for(int i = 0; i < source.getSize(); i += 2) {
+	    RowData row = sourceData.get(Integer.toHexString(i));
+	    if(row.getSize() == 2) {
+		mStorage.writeMemory(Integer.toHexString(i), 
+			Byte.parseByte(row.getMneumonic()));
+		mStorage.writeMemory(Integer.toHexString(i+1), 
+			Byte.parseByte(row.getOperand()));
+	    }
+	    else {
+		mStorage.writeMemory(Integer.toHexString(i), 
+			Byte.parseByte(row.getMneumonic()));
+	    }
+	}
+	
+    }
+    
     // Executes the code according to the opCode parameter
     // If parameter data is an address then must be in hex format Eg. 0x4f 0xF3
     // If using TAB or TBA then parameterdata can be set to anything

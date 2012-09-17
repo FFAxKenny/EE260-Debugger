@@ -15,6 +15,7 @@ public class RowData {
 
     private String mneumonic;
     private String operand;
+    private int size;
 
     private final int min = Integer.parseInt("00", 16);
 
@@ -28,11 +29,10 @@ public class RowData {
      * @param nmncOrValue
      * @param labelDefined
      */
-    public RowData(String nmnc, String oper)
-	    throws InvalidKeyException {
-	    mneumonic = checkMneumonic(nmnc);
-	    operand = checkOperand(oper);
-	}
+    public RowData(String nmnc, String oper) throws InvalidKeyException {
+	mneumonic = checkMneumonic(nmnc);
+	operand = checkOperand(oper);
+	size = 2;
     }
 
     /**
@@ -43,6 +43,7 @@ public class RowData {
     public RowData(String nmnc) throws InvalidKeyException {
 	operand = null;
 	mneumonic = checkMneumonic(nmnc);
+	size = 1;
     }
 
     /**
@@ -59,6 +60,10 @@ public class RowData {
 
     public String getOperand() {
 	return operand;
+    }
+
+    public int getSize() {
+	return size;
     }
 
     /**

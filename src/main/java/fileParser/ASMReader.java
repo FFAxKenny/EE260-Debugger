@@ -109,7 +109,7 @@ public class ASMReader {
 	    if (rowMap.size() > 64) {
 		throw new ArrayIndexOutOfBoundsException("Exceeded Code Space");
 	    }
-	    SourceData sourceData = new SourceData(rowMap, lblAddMap, i);
+	    SourceData sourceData = new SourceData(rowMap, lblAddMap, i + 1);
 	    return sourceData;
 	} finally {
 	    reader.close();
