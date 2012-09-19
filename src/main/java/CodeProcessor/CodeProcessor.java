@@ -19,7 +19,6 @@ import storage.Storage;
 public class CodeProcessor {
 
 	private Storage mStorage;
-	int mPC;
 
 	/**
 	 * Constructor for the CodeProcessor class.
@@ -28,8 +27,8 @@ public class CodeProcessor {
 	 *            needs
 	 */
 	public CodeProcessor(SourceData source) {
+		mStorage = new Storage();
 		this.importSourceToStorage(source);
-		mPC = 0;
 	}
 
 	/**
@@ -37,7 +36,7 @@ public class CodeProcessor {
 	 * 
 	 * @param source
 	 */
-	public void importSourceToStorage(SourceData source) {
+	private void importSourceToStorage(SourceData source) {
 		HashMap<String, RowData> sourceData = source.getSourceCode();
 		for (int i = 0; i < source.getSize(); i += 2) {
 			RowData row = sourceData.get(Integer.toHexString(i));
@@ -99,7 +98,8 @@ public class CodeProcessor {
 	 * @return List<String[]> of GPRA or GPRB
 	 */
 	private String[] getGPR(char register) {
-		String[] gpr = { "gpr", "a", mStorage.readRegister(register) };
+		String[] gpr = { "gpr", String.valueOf(register),
+				Byte.toString(mStorage.readRegister(register)) };
 		return gpr;
 	}
 
@@ -108,7 +108,7 @@ public class CodeProcessor {
 	 * @return List<String[]> of register value
 	 */
 	private String[] getRegister(String address) {
-		String[] gpr = { "register", "a", mStorage.readMemory(address) };
+		String[] gpr = { "register", address, mStorage.readMemory(address) };
 		return gpr;
 	}
 
@@ -120,7 +120,8 @@ public class CodeProcessor {
 	 */
 	private String[] writeToIOSpace(String hexAddress, String hexValue) {
 		return null;
-		// TODO: Tiffany - please implement this
+		// TODO: Use storage to save hexValue to hexAddress
+		// TODO: Make sure address is within range
 	}
 
 	/**
@@ -131,19 +132,15 @@ public class CodeProcessor {
 	 */
 	private String[] writeToDataSpace(String hexAddress, String hexValue) {
 		return null;
-		// TODO: Tiffany - please implement this
+		// TODO: Use storage to save hexValue to hexAddress
+		// TODO: Make sure address is within range
 	}
 
 	// Executes the code according to the opCode parameter
 	// If parameter data is an address then must be in hex format Eg. 0x4f 0xF3
 	// If using TAB or TBA then parameterdata can be set to anything
 	private void instruction(String opCode, String data) {
-		// TODO: Tiff - you have to finish what Brandon was doing here. This is
-		// where
-		// we simulate the behavior of the code. The behaviors are accessed
-		// through
-		// the opcode since that is how it is stored in storage.
-
+		// TODO: pass instructions to storage class
 		String OP = opCode.toLowerCase();
 		String DATA = data.toLowerCase();
 
