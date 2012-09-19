@@ -5,15 +5,14 @@ import org.junit.Test;
 public class StorageTest {
 
 	@Test
-	public static void storageTest(String[] args) {
+	public void storageTest() {
 		Storage storage = new Storage();
-		storage.initStorage();
 
-		System.out.println("Original PC:\t" + storage.readPC());
-		storage.progressPC();
-		System.out.println("Progressed PC by 1:\t" + storage.readPC());
+		System.out.println("Original PC:\t" + storage.getPC());
+		storage.incrementPC();
+		System.out.println("Progressed PC by 1:\t" + storage.getPC());
 		storage.offsetPC(3);
-		System.out.println("Offset PC by 3\t" + storage.readPC());
+		System.out.println("Offset PC by 3\t" + storage.getPC());
 		storage.writeRegister('a', (byte) 'l');
 		System.out.println("Reading a, should be apple:\t"
 				+ storage.readRegister('a'));

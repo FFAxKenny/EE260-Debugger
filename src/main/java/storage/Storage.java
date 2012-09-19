@@ -2,31 +2,31 @@ package storage;
 
 /*
  * Filename:	storage.java
- * Author:	Brandon Higashi
+ * Author:	Brandon Higashi, boka
  * Mod:		September 14, 2012
  *
  * This is the storage class for the ee260 debugger
  */
 
 public class Storage {
+	private static final int MAX_PC = 63;
+	private static final byte ERR_BYTE = new Byte("0").byteValue();
 
 	private byte[] memory;
 	private byte[] registers;
+	// The program counter
 	private int PC;
 
 	// Initializes the memory to be used
-	public void initStorage() {
+	public Storage() {
 		registers = new byte[2];
 		memory = new byte[256];
 		PC = 0;
 	}
 
 	// Increases the PC counter by 1
-	public void progressPC() {
+	public void incrementPC() {
 		PC++;
-		if (PC > 63) {
-			System.out.println("Program counter exceeding storage");
-		}
 	}
 
 	// Offsets the PC counter by the specified amount
@@ -36,7 +36,7 @@ public class Storage {
 	}
 
 	// Returns the counter value
-	public int readPC() {
+	public int getPC() {
 		return PC;
 	}
 
@@ -59,16 +59,15 @@ public class Storage {
 
 	// Returns a char value of what is in a specified register
 	// Note: parameter aRegister can be upper or lowercase
-	public char readRegister(char aRegister) {
+	public byte readRegister(char aRegister) {
 		aRegister = Character.toLowerCase(aRegister);
 		switch (aRegister) {
 			case 'a':
-				return (char) registers[0];
+				return registers[0];
 			case 'b':
-				return (char) registers[1];
+				return registers[1];
 			default:
-				System.out.println(aRegister + " is not a register.");
-				return 0;
+				return ERR_BYTE;
 		}
 	}
 
@@ -80,7 +79,7 @@ public class Storage {
 	 * @param data
 	 */
 	public void writeMemory(String address, byte data) {
-		int decimalAddress = Integer.parseInt(address, 16);
+		int decimalAddress = Integer.decode(address);
 		memory[decimalAddress] = (byte) data;
 	}
 
@@ -90,10 +89,7 @@ public class Storage {
 	 *         address to be accessed. Can be upper or lowercase. Ex. 0x4f 0xA3
 	 * 
 	 */
-	public char readMemory(String address) {
-		int decimalAddress = Integer.parseInt(address, 16);
-		byte mem = memory[decimalAddress];
-		char memry = (char) mem;
-		return memry;
+	public byte readMemory(String address) {
+		return memory[Integer.decode(address)];
 	}
 }
