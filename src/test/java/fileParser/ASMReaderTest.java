@@ -19,7 +19,6 @@ public class ASMReaderTest {
 		RowData convertedRow1 = convertedAsmCode.getSourceCode().get(1);
 		Assert.assertEquals("LDB", convertedRow0.getMneumonic());
 		Assert.assertEquals("0x40", convertedRow0.getOperand());
-		Assert.assertEquals("LOOP:", convertedRow1.getLabel());
 		Assert.assertEquals("ADDIA", convertedRow1.getMneumonic());
 		Assert.assertEquals("10", convertedRow1.getOperand());
 	}
