@@ -25,7 +25,7 @@ public class TestUserInterface {
 				ui.processCommand(quit));
 		Assert.assertArrayEquals(new String[] { "help" },
 				ui.processCommand(help));
-		Assert.assertArrayEquals(new String[] { "step" },
+		Assert.assertArrayEquals(new String[] { "step", "1" },
 				ui.processCommand(step));
 		Assert.assertArrayEquals(new String[] { "step", "1000" },
 				ui.processCommand(stepNum));
