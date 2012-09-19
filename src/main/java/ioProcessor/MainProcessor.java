@@ -117,7 +117,7 @@ public class MainProcessor {
 			e.printStackTrace();
 		}
 		finally {
-			System.out.println("Something bad happened :(");
+			System.out.println("Terminating.");
 		}
 	}
 }
