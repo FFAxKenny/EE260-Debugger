@@ -31,7 +31,7 @@ public class Display {
 	 */
 	public void update(List<String[]> input) {
 		for (int i = 0; i < input.size(); i++) {
-			update(input.get(i));
+			this.update(input.get(i));
 		}
 	}
 
