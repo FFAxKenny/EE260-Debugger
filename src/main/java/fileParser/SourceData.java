@@ -14,27 +14,27 @@ import java.util.HashMap;
  */
 
 public class SourceData {
-    private HashMap<String, RowData> sourceCode = new HashMap<String, RowData>();
-    private HashMap<String, String> labelAddressMap = new HashMap<String, String>();
-    private int size;
+	private HashMap<String, RowData> sourceCode = new HashMap<String, RowData>();
+	private HashMap<String, String> labelAddressMap = new HashMap<String, String>();
+	private int size;
 
-    public SourceData(HashMap<String, RowData> listOfRowData,
-	    HashMap<String, String> lblAddMap, int s) {
-	sourceCode = listOfRowData;
-	labelAddressMap = lblAddMap;
-	size = s;
-    }
+	public SourceData(HashMap<String, RowData> listOfRowData,
+			HashMap<String, String> lblAddMap, int s) {
+		sourceCode = listOfRowData;
+		labelAddressMap = lblAddMap;
+		size = s;
+	}
 
-    public HashMap<String, RowData> getSourceCode() {
-	return sourceCode;
-    }
+	public HashMap<String, RowData> getSourceCode() {
+		return sourceCode;
+	}
 
-    public HashMap<String, String> getLabelAddressMap() {
-	return labelAddressMap;
-    }
+	public HashMap<String, String> getLabelAddressMap() {
+		return labelAddressMap;
+	}
 
-    public int getSize() {
-	return size;
-    }
+	public int getSize() {
+		return size;
+	}
 
 }
