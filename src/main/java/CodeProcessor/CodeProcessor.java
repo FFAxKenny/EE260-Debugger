@@ -1,5 +1,7 @@
 package CodeProcessor;
 
+import ioProcessor.UserInterface;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -17,6 +19,14 @@ import storage.Storage;
  */
 
 public class CodeProcessor {
+	private static final int MAX_OP_LEN = 4;
+	private static final String OPCODE_ERROR = "error: no such opcode";
+	private static final String COMMAND_ERROR = "error: invalid command";
+	private static final String ADDR_ERROR = "error: address out of range";
+	private static final String UPDATE = "update";
+	private static final String GPR = "gpr";
+	private static final String REG = "register";
+	private static final String IO = "io";
 
 	private Storage mStorage;
 
@@ -37,6 +47,7 @@ public class CodeProcessor {
 	 * @param source
 	 */
 	private void importSourceToStorage(SourceData source) {
+		// TODO: this should use writeToDataSpace instead
 		HashMap<String, RowData> sourceData = source.getSourceCode();
 		for (int i = 0; i < source.getSize(); i += 2) {
 			RowData row = sourceData.get(Integer.toHexString(i));
@@ -61,15 +72,30 @@ public class CodeProcessor {
 	 * @return string array of completed operation
 	 */
 	public String[] runCommand(String[] command) {
-		return command;
-		// TODO figure out what to do from the command
-		// Use UserInterface class' static variables
-		// To check for commands
-		// ex: case UserInterface.
-
-		// TODO call the correct method with interpreted parameters
-		// and return a string array of the completed command
-		// if command can't be completed, print an error
+		String[] operation;
+		switch (command[0]) {
+			case UserInterface.GET:
+				switch (command[1]) {
+					case GPR:
+						operation = this.getGPR(command[2].charAt(0));
+						break;
+					case REG:
+						operation = this.getRegister(command[2]);
+						break;
+					default:
+						operation = new String[] { COMMAND_ERROR, command[0],
+								command[1] };
+						break;
+				}
+				break;
+			case UserInterface.CHANGE_IO:
+				operation = this.writeToIOSpace(command[1], command[2]);
+				break;
+			default:
+				operation = new String[] { COMMAND_ERROR, command[0] };
+				break;
+		}
+		return operation;
 	}
 
 	/**
@@ -83,7 +109,8 @@ public class CodeProcessor {
 		for (int i = 0; i < steps; i++) {
 			// TODO get code to run from program counter
 
-			// TODO run code
+			// TODO run code, use Reference class to extract hex command
+			// TODO update program counter
 
 			// TODO add operations to actions string list
 			// String[] operation;
@@ -98,7 +125,7 @@ public class CodeProcessor {
 	 * @return List<String[]> of GPRA or GPRB
 	 */
 	private String[] getGPR(char register) {
-		String[] gpr = { "gpr", String.valueOf(register),
+		String[] gpr = { GPR, String.valueOf(register),
 				Byte.toString(mStorage.readRegister(register)) };
 		return gpr;
 	}
@@ -108,7 +135,8 @@ public class CodeProcessor {
 	 * @return List<String[]> of register value
 	 */
 	private String[] getRegister(String address) {
-		String[] gpr = { "register", address, mStorage.readMemory(address) };
+		String[] gpr = { REG, address,
+				Byte.toString(mStorage.readMemory(address)) };
 		return gpr;
 	}
 
@@ -119,9 +147,22 @@ public class CodeProcessor {
 	 * @param hexValue
 	 */
 	private String[] writeToIOSpace(String hexAddress, String hexValue) {
-		return null;
+		String[] operation;
+
+		// Make sure address is within range
+		int address = Integer.decode(hexAddress);
+		int value = Integer.decode(hexValue);
+
+		if (address > 99 || address < 0) {
+			operation = new String[] { ADDR_ERROR, hexAddress };
+		}
+		else {
+			mStorage.writeMemory(hexAddress, (byte) value);
+			operation = new String[] { UPDATE, IO,
+					new Byte(mStorage.readMemory(hexAddress)).toString() };
+		}
+		return operation;
 		// TODO: Use storage to save hexValue to hexAddress
-		// TODO: Make sure address is within range
 	}
 
 	/**
@@ -139,60 +180,82 @@ public class CodeProcessor {
 	// Executes the code according to the opCode parameter
 	// If parameter data is an address then must be in hex format Eg. 0x4f 0xF3
 	// If using TAB or TBA then parameterdata can be set to anything
-	private void instruction(String opCode, String data) {
+	private String[] instruction(String opCode, String data) {
 		// TODO: pass instructions to storage class
 		String OP = opCode.toLowerCase();
-		String DATA = data.toLowerCase();
 
+		String[] operation = new String[MAX_OP_LEN];
 		// Data transfer instructions
 		switch (OP) {
 		// LDA
 			case "3a":
-				char temp = mStorage.readMemory(DATA);
-				mStorage.writeRegister('a', (byte) temp);
+				mStorage.writeRegister('a', mStorage.readMemory(data));
+				operation[0] = UPDATE;
+				operation[1] = GPR;
+				operation[2] = "a";
+				operation[3] = data;
 				break;
 			// LDIA
 			case "3e":
-				int tempa = Integer.parseInt(DATA);
-				byte tempb = Integer.toByte(tempa);
-				mStorage.writeRegister('a', tempb);
+				mStorage.writeRegister('a', new Byte(data));
+				operation[0] = UPDATE;
+				operation[1] = GPR;
+				operation[2] = "a";
+				operation[3] = data;
 				break;
 			// LDB
 			case "39":
-				char temp = mStorage.readMemory(DATA);
-				mStorage.writeRegister('b', (byte) temp);
+				mStorage.writeRegister('b', mStorage.readMemory(data));
+				operation[0] = UPDATE;
+				operation[1] = GPR;
+				operation[2] = "b";
+				operation[3] = data;
 				break;
 
 			// LDIB
 			case "3d":
-				int tempa = Integer.parseInt(DATA);
-				byte tempb = Integer.toHexString(tempa);
-				mStorage.writeRegister('b'.tempb);
+				mStorage.writeRegister('b', new Byte(data));
+				operation[0] = UPDATE;
+				operation[1] = GPR;
+				operation[2] = "b";
+				operation[3] = data;
 				break;
 			// STA
 			case "1a":
-				char temp = readRegister('a');
-				mStorage.writeMemory(DATA, (byte) temp);
+				mStorage.writeMemory(data, mStorage.readRegister('a'));
+				operation[0] = UPDATE;
+				operation[1] = REG;
+				operation[2] = data;
+				operation[3] = new Byte(mStorage.readRegister('a')).toString();
 				break;
 			// STB
 			case "19":
-				char temp = readRegister('b');
-				mStorage.writeMemory(DATA, (byte) temp);
+				mStorage.writeMemory(data, mStorage.readRegister('b'));
+				operation[0] = UPDATE;
+				operation[1] = REG;
+				operation[2] = data;
+				operation[3] = new Byte(mStorage.readRegister('b')).toString();
 				break;
 			// TAB
 			case "21":
-				char temp = readRegister('a');
-				mStorage.writeRegister('b');
+				mStorage.writeRegister('b', mStorage.readRegister('a'));
+				operation[0] = UPDATE;
+				operation[1] = GPR;
+				operation[2] = "b";
+				operation[3] = new Byte(mStorage.readRegister('a')).toString();
 				break;
 			// TBA
 			case "22":
-				char temp = readRegister('b');
-				mStorage.writeRegister('a');
+				mStorage.writeRegister('a', mStorage.readRegister('b'));
+				operation[0] = UPDATE;
+				operation[1] = GPR;
+				operation[2] = "a";
+				operation[3] = new Byte(mStorage.readRegister('b')).toString();
 				break;
 			// Data manipulation instructions
 			/* ADDA */
 			case "62":
-				char tempa = mStorage.readMemory(DATA);
+				char tempa = mStorage.readMemory(data);
 				char tempb = mStorage.readRegister('a');
 				int sum = Character.toNumericValue(tempa)
 						+ Character.toNumericValue(tempb);
@@ -252,6 +315,12 @@ public class CodeProcessor {
 			/* JBNZ */
 			case "99":
 				break;
+			// Incorrect command
+			default:
+				operation[0] = OPCODE_ERROR;
+				operation[1] = OP;
+				break;
 		}
+		return operation;
 	}
 }
