@@ -20,6 +20,8 @@ import storage.Storage;
 
 public class CodeProcessor {
 	private static final int MAX_OP_LEN = 4;
+	private static final int IO_START = 64;
+	private static final int IO_END = 127;
 	private static final String OPCODE_ERROR = "error: no such opcode";
 	private static final String COMMAND_ERROR = "error: invalid command";
 	private static final String ADDR_ERROR = "error: address out of range";
@@ -108,7 +110,7 @@ public class CodeProcessor {
 		List<String[]> operations = new ArrayList<String[]>();
 		for (int i = 0; i < steps; i++) {
 			// TODO get code to run from program counter
-
+			mStorage.readMemory(String.valueOf(mStorage.getPC()));
 			// TODO run code, use Reference class to extract hex command
 			// TODO update program counter
 
@@ -153,7 +155,7 @@ public class CodeProcessor {
 		int address = Integer.decode(hexAddress);
 		int value = Integer.decode(hexValue);
 
-		if (address > 99 || address < 0) {
+		if (address > IO_END || address < IO_START) {
 			operation = new String[] { ADDR_ERROR, hexAddress };
 		}
 		else {
@@ -171,16 +173,16 @@ public class CodeProcessor {
 	 * @param hexAddress
 	 * @param hexValue
 	 */
-	private String[] writeToDataSpace(String hexAddress, String hexValue) {
-		return null;
-		// TODO: Use storage to save hexValue to hexAddress
-		// TODO: Make sure address is within range
-	}
+	// private String[] writeToDataSpace(String hexAddress, String hexValue) {
+	// return null;
+	// // TODO: Use storage to save hexValue to hexAddress
+	// // TODO: Make sure address is within range
+	// }
 
 	// Executes the code according to the opCode parameter
 	// If parameter data is an address then must be in hex format Eg. 0x4f 0xF3
 	// If using TAB or TBA then parameterdata can be set to anything
-	private String[] instruction(String opCode, String data) {
+	private String[] executeInstruction(String opCode, String data) {
 		// TODO: pass instructions to storage class
 		String OP = opCode.toLowerCase();
 
@@ -255,11 +257,11 @@ public class CodeProcessor {
 			// Data manipulation instructions
 			/* ADDA */
 			case "62":
-				char tempa = mStorage.readMemory(data);
-				char tempb = mStorage.readRegister('a');
-				int sum = Character.toNumericValue(tempa)
-						+ Character.toNumericValue(tempb);
-				writeRegister('a', (byte) sum);
+				// char tempa = mStorage.readMemory(data);
+				// char tempb = mStorage.readRegister('a');
+				// int sum = Character.toNumericValue(tempa)
+				// + Character.toNumericValue(tempb);
+				// writeRegister('a', (byte) sum);
 				/* ADDIA */
 			case "66":
 				break;
